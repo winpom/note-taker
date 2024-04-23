@@ -1,18 +1,3 @@
-const router = require('express').Router();
-
-// Import our modular routers for /tips and /feedback
-const tipsRouter = require('./tips');
-const feedbackRouter = require('./feedback');
-
-router.use('/tips', tipsRouter);
-router.use('/feedback', feedbackRouter);
-
-module.exports = router;
-
-
-
-
-
 let noteForm;
 let noteTitle;
 let noteText;
@@ -49,6 +34,12 @@ const getNotes = () =>
     headers: {
       'Content-Type': 'application/json'
     }
+      // body: JSON.stringify(data),
+  })
+  .then((response) => response.json())
+  .then((data) => data)
+  .catch((error) => {
+    console.error('Error:', error);
   });
 
 const saveNote = (note) =>
