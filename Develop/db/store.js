@@ -51,6 +51,6 @@ class Store {
     }
 }
 
-const a = new Store().getNotes().then((notes) => console.log(notes))
+// const a = new Store().getNotes().then((data) => data.json()).then((notes) => console.log(notes))
 
 module.exports = new Store();

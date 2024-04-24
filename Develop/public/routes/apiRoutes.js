@@ -9,6 +9,7 @@ router.get('/notes', (req, res) => {
     console.info(`${req.method} request received to get notes`);
 });
 
+// POST request for reviews
 router.post('/notes', (req, res) => {
     store.addNotes(req.body).then((note) => {
         return res.status(200).json(note)
@@ -16,7 +17,7 @@ router.post('/notes', (req, res) => {
     console.info(`${req.method} request received to add a note`);
 })
 
-// POST request to delete a review
+// DELETE request to delete a review
 router.delete('/notes/:noteId', (req, res) => {
     store.deleteNotes(req.params.noteId).then(() => {
         res.status(200).json({ deleted: true, id: req.params.noteId })
