@@ -29,14 +29,16 @@ class Store {
     addNotes(notes) {
         const { title, text } = notes;
 
-        if (!title || !text)
+        if (!title || !text) {
             throw new Error("Must include a Title and Text")
+        }
 
         const newNote = {
             title,
             text,
             noteId: uuid(),
         };
+
         return this.getNotes().then((notes) =>
             [...notes, newNote])
         .then((updatedNotes) => this.write(updatedNotes)
@@ -45,9 +47,9 @@ class Store {
 
     deleteNotes(noteId) {
         return this.getNotes().then((notes) => {
-            notes.filter((note) => note.noteId !== id)
-            .then((updatedNotes) => this.write(updatedNotes))
-        })
+            const filteredNotes = notes.filter((note) => note.noteId !== noteId);
+            return this.write(filteredNotes);
+        });
     }
 }
 
