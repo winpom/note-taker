@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
 const api = require('./public/assets/js/index.js');
-const uuid = require('./helpers/uuid');
-const notes = require('./db/db');
+const uuid = require('./db/uuid');
+const store = require('./db/store')
+// const notes = require('./db/db');
 
 const PORT = process.env.PORT || 3001
 
@@ -28,6 +29,9 @@ app.get('/notes', (req, res) =>
 // GET request for reviews
 app.get('/api/notes', (req, res) => {
   // Send a message to the client
+  store.getNotes().then((notes) => {
+    return res.json(notes)
+  }).catch((error) => res.status(500).json(error))
   res.json(`${req.method} request received to get notes`);
 
   // Log our request to the terminal
@@ -36,54 +40,63 @@ app.get('/api/notes', (req, res) => {
 
 // POST request to add a review
 app.post('/api/notes', (req, res) => {
-  // Log that a POST request was received
+  store.addNotes(req.body).then((note) => {
+    return res.status(200).json(note)
+  }).catch((error) => res.status(500).json(error));
   console.info(`${req.method} request received to add a note`);
+})
 
-  // Destructuring assignment for the items in req.body
-  const { title, text } = req.body;
+app.delete('/api/notes', (req, res) => {
+  store.deleteNotes(req.params.noteId).then(() => {
+    res.status(200).json({ deleted: true, id: req.params.noteId})
+  }).catch((error) => res.status(500).json(error));
+  console.info(`${req.method} request received to delete a note`);
+})
+//   // Destructuring assignment for the items in req.body
+//   const { title, text } = req.body;
 
-  // If all the required properties are present
-  if (title && text) {
-    // Variable for the object we will save
-    const newNote = {
-      title,
-      text,
-      note_id: uuid(),
-    };
+//   // If all the required properties are present
+//   if (title && text) {
+//     // Variable for the object we will save
+//     const newNote = {
+//       title,
+//       text,
+//       note_id: uuid(),
+//     };
 
-    fs.readFile('./db/db.json', 'utf8', (err, data) => {
-      if (err) {
-        console.error(err);
-      } else {
-        // Convert string into JSON object
-        const parsedNotes = JSON.parse(data);
+//     fs.readFile('./db/db.json', 'utf8', (err, data) => {
+//       if (err) {
+//         console.error(err);
+//       } else {
+//         // Convert string into JSON object
+//         const parsedNotes = JSON.parse(data);
 
-        // Convert the data to a string so we can save it
-        parsedNotes.push(newNote);
+//         // Convert the data to a string so we can save it
+//         parsedNotes.push(newNote);
 
-        // Write the string to a file
-        fs.writeFile(
-          './db/db.json',
-          JSON.stringify(parsedNotes, null, 4),
-          (writeErr) =>
-            writeErr
-              ? console.error(writeErr)
-              : console.info('Successfully updated notes!')
-        );
-      }
-    });
+//         // Write the string to a file
+//         fs.writeFile(
+//           './db/db.json',
+//           JSON.stringify(parsedNotes, null, 4),
+//           (writeErr) =>
+//             writeErr
+//               ? console.error(writeErr)
+//               : console.info('Successfully updated notes!')
+//         );
+//       }
+//     });
 
-    const response = {
-      status: 'success',
-      body: newNote,
-    };
+//     const response = {
+//       status: 'success',
+//       body: newNote,
+//     };
 
-    console.log(response);
-    res.status(201).json(response);
-  } else {
-    res.status(500).json('Error in adding note');
-  }
-});
+//     console.log(response);
+//     res.status(201).json(response);
+//   } else {
+//     res.status(500).json('Error in adding note');
+//   }
+// });
 
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT}`)
