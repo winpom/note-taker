@@ -40,25 +40,19 @@ class Store {
 
         return this.getNotes().then((notes) =>
             [...notes, newNote])
-        .then((updatedNotes) => this.write(updatedNotes)
-        .then(() => newNote)
-    )}
-
-    deleteNotes(id) {
-        return this.getNotes().then((notes) => {
-            const filteredNotes = notes.filter((note) => note.id !== id);
-            return this.write(filteredNotes);
-        });
+            .then((updatedNotes) => this.write(updatedNotes)
+                .then(() => newNote)
+            )
     }
 
     deleteNotes(id) {
         return this.getNotes().then((notes) => {
-            notes.filter((note) => note.id !== id)
-            .then((filteredNotes) => this.write(filteredNotes))
+           return notes.filter((note) => note.id !== id)
         })
+            .then((filteredNotes) => {
+                this.write(filteredNotes)
+            })
     }
 }
-
-// const a = new Store().getNotes().then((data) => data.json()).then((notes) => console.log(notes))
 
 module.exports = new Store();

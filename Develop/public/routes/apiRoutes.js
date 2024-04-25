@@ -19,10 +19,29 @@ router.post('/notes', (req, res) => {
 
 // DELETE request to delete a review
 router.delete('/notes/:id', (req, res) => {
-    store.deleteNotes(req.params.id).then(() => {
-        res.status(200).json({ deleted: true, id: req.params.id })
+    const noteId = req.params.id;
+    store.deleteNotes(noteId).then(() => {
+        res.status(200).json({ deleted: true, id: noteId })
     }).catch((error) => res.status(500).json(error));
     console.info(`${req.method} request received to delete a note`);
 })
 
+// router.delete('/notes/:id', (req, res) => {
+//     const noteId = req.params.id;
+
+//     store.getNotes().then((notes) => {
+//         notes.filter((note) => note.id !== noteId)
+//         .then(filteredNotes);
+//         store.write(filteredNotes)
+//     }).catch((error) => res.status(500).json(error));
+//     console.info(`${req.method} request received to delete a note`);
+// })
+
 module.exports = router;
+
+
+
+
+
+
+
