@@ -51,6 +51,13 @@ class Store {
             return this.write(filteredNotes);
         });
     }
+
+    deleteNotes(noteId) {
+        return this.getNotes().then((notes) => {
+            notes.filter((note) => note.noteId !== noteId)
+            .then((filteredNotes) => this.write(filteredNotes))
+        })
+    }
 }
 
 // const a = new Store().getNotes().then((data) => data.json()).then((notes) => console.log(notes))
