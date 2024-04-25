@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const store = require('C:/Users/winpo/Desktop/Coding/Modules/note-taker/Develop/db/store.js')
+const store = require('../db/store.js')
 
 // GET request for reviews
 router.get('/notes', (req, res) => {
@@ -25,17 +25,6 @@ router.delete('/notes/:id', (req, res) => {
     }).catch((error) => res.status(500).json(error));
     console.info(`${req.method} request received to delete a note`);
 })
-
-// router.delete('/notes/:id', (req, res) => {
-//     const noteId = req.params.id;
-
-//     store.getNotes().then((notes) => {
-//         notes.filter((note) => note.id !== noteId)
-//         .then(filteredNotes);
-//         store.write(filteredNotes)
-//     }).catch((error) => res.status(500).json(error));
-//     console.info(`${req.method} request received to delete a note`);
-// })
 
 module.exports = router;
 
