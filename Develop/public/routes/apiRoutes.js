@@ -18,9 +18,9 @@ router.post('/notes', (req, res) => {
 })
 
 // DELETE request to delete a review
-router.delete('/notes/:noteId', (req, res) => {
-    store.deleteNotes(req.params.noteId).then(() => {
-        res.status(200).json({ deleted: true, id: req.params.noteId })
+router.delete('/notes/:id', (req, res) => {
+    store.deleteNotes(req.params.id).then(() => {
+        res.status(200).json({ deleted: true, id: req.params.id })
     }).catch((error) => res.status(500).json(error));
     console.info(`${req.method} request received to delete a note`);
 })

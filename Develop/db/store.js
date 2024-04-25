@@ -21,7 +21,6 @@ class Store {
             } catch (error) {
                 parsedNotes = []
             }
-
             return parsedNotes;
         })
     }
@@ -36,7 +35,7 @@ class Store {
         const newNote = {
             title,
             text,
-            noteId: uuid(),
+            id: uuid()
         };
 
         return this.getNotes().then((notes) =>
@@ -45,16 +44,16 @@ class Store {
         .then(() => newNote)
     )}
 
-    deleteNotes(noteId) {
+    deleteNotes(id) {
         return this.getNotes().then((notes) => {
-            const filteredNotes = notes.filter((note) => note.noteId !== noteId);
+            const filteredNotes = notes.filter((note) => note.id !== id);
             return this.write(filteredNotes);
         });
     }
 
-    deleteNotes(noteId) {
+    deleteNotes(id) {
         return this.getNotes().then((notes) => {
-            notes.filter((note) => note.noteId !== noteId)
+            notes.filter((note) => note.id !== id)
             .then((filteredNotes) => this.write(filteredNotes))
         })
     }

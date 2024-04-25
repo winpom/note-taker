@@ -1,26 +1,27 @@
 [
     {
         "title": "Test Title",
-        "text": "Test text"
+        "text": "Test text",
+        "id": "15b8"
     },
     {
         "title": "Win",
         "text": "rules",
-        "noteId": "1ab8"
+        "id": "1ab8"
     },
     {
         "title": "Adding a note",
         "text": "weeee",
-        "noteId": "9ad2"
+        "id": "9ad2"
     },
     {
         "title": "Win",
         "text": "rules twice",
-        "noteId": "3dc1"
+        "id": "3dc1"
     },
     {
         "title": "Caan I Add",
         "text": "I hope",
-        "noteId": "2811"
+        "id": "2811"
     }
 ]
